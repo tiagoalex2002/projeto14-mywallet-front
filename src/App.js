@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom"
+import { BrowserRouter, Routes, Route, useActionData } from "react-router-dom"
 import styled from "styled-components"
 import HomePage from "./pages/HomePage"
 import SignInPage from "./pages/SignInPage"
@@ -7,6 +7,8 @@ import TransactionsPage from "./pages/TransactionPage"
 import { useState } from "react"
 import SignUpContext from "./Contexts/SignUpContext"
 import LoginContext from "./Contexts/LoginContext"
+import TransactionContext from "./Contexts/TransactionContext"
+import HomeContext from "./Contexts/HomeContext"
 
 export default function App() {
 
@@ -20,14 +22,24 @@ export default function App() {
   const [mail, setMail]=useState("")
   const LoginValue={email: mail, setEmail: setMail, password: senha , setPassword: setSenha}
 
+  const [valor, setValor]= useState(0)
+  const [description, setDescription]= useState("")
+  const TransactionValue={valor: valor, setValor: setValor, description: description, setDescription: setDescription}
+
+  const [nome, setNome]= useState("")
+  const [operations, setOperations]= useState([])
+  const [entries, setEntries]= useState([])
+  const [exits, setExits]= useState([])
+  const HomeValue={nome: nome, setNome: setNome, operations: operations, setOperations: setOperations, entries: entries, setEntries: setEntries, exits: exits, setExits: setExits}
+
   return (
     <PagesContainer>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LoginContext.Provider value={LoginValue}><SignInPage /></LoginContext.Provider>} />
           <Route path="/cadastro" element={<SignUpContext.Provider value={SignUpValue}><SignUpPage /></SignUpContext.Provider>} />
-          <Route path="/home" element={<HomePage />} />
-          <Route path="/nova-transacao/:tipo" element={<TransactionsPage />} />
+          <Route path="/home" element={<HomeContext.Provider value={HomeValue}><HomePage /></HomeContext.Provider>} />
+          <Route path="/nova-transacao/:tipo" element={<TransactionContext.Provider value={TransactionValue}><TransactionsPage /></TransactionContext.Provider>} />
         </Routes>
       </BrowserRouter>
     </PagesContainer>

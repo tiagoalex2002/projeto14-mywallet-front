@@ -1,12 +1,30 @@
 import styled from "styled-components"
 import { BiExit } from "react-icons/bi"
+import { Link } from "react-router-dom"
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai"
+import { useEffect } from "react"
+import axios from "axios"
+import { useContext } from "react"
+import HomeContext from "../Contexts/HomeContext"
 
 export default function HomePage() {
+
+  const {nome, setNome, operations, setOperations, exits, setExits, entries, setEntries}= useContext(HomeContext)
+  
+  const info= localStorage.getItem("usuario")
+  const informacoes=JSON.parse(info);
+  const  auth=informacoes.token;
+
+  useEffect(() =>{const requisition= axios.get("http:localhost:5000/home", {headers: {Authorization: `Bearer ${auth}`}});
+requisition.then((response) => {setNome(response.data.user.name);
+setOperations(response.data.operations);
+setExits(response.data.exits);
+setEntries(response.data.entries)}) },[])
+
   return (
     <HomeContainer>
       <Header>
-        <h1>Olá, Fulano</h1>
+        <h1>Olá, {nome}</h1>
         <BiExit />
       </Header>
 
@@ -37,14 +55,14 @@ export default function HomePage() {
 
 
       <ButtonsContainer>
-        <button>
+        <Link to="/nova-transacao/entrada"><button>
           <AiOutlinePlusCircle />
-          <p>Nova <br /> entrada</p>
-        </button>
-        <button>
+          <p>Nova <br />entrada</p>
+        </button></Link>
+        <Link to="/nova-transacao/saida"><button>
           <AiOutlineMinusCircle />
-          <p>Nova <br />saída</p>
-        </button>
+          <p>Nova <br />entrada</p>
+        </button></Link>
       </ButtonsContainer>
 
     </HomeContainer>

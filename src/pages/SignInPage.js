@@ -3,22 +3,35 @@ import { Link } from "react-router-dom"
 import MyWalletLogo from "../components/MyWalletLogo"
 import LoginContext from "../Contexts/LoginContext"
 import { useContext } from "react"
+import axios from "axios"
+import { useNavigate } from "react-router-dom"
 
 export default function SignInPage() {
+  const navigate= useNavigate()
+
   const {email}= useContext(LoginContext)
   const {setEmail}= useContext(LoginContext)
   const {password}= useContext(LoginContext)
   const {setPassword}= useContext(LoginContext)
+
+  function Login(event){
+    event.preventDefault()
+    const body= {email: email, password: password}
+    const requisition= axios.post("http:localhost:5000/", body)
+    requisition.then((response)=> {const user=JSON.stringify(response.data);
+    localStorage.setItem("usuario",user);
+    navigate("/home")})
+  }
   return (
     <SingInContainer>
-      <form>
+      <form onSubmit={Login}>
         <MyWalletLogo />
         <input placeholder="E-mail" type="email" value={email} onChange={e => setEmail(e.target.value) }/>
         <input placeholder="Senha" type="password" autocomplete="new-password" value={password} onChange={e => setPassword(e.target.value)} />
-        <button>Entrar</button>
+        <button type="submit">Entrar</button>
       </form>
 
-      <Link t="/cadastro">
+      <Link to="/cadastro">
         Primeira vez? Cadastre-se!
       </Link>
     </SingInContainer>
