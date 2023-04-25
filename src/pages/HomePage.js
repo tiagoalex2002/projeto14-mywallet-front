@@ -57,18 +57,19 @@ export default function HomePage() {
   
 
 
-  let entriesValues;
-  let exitsValues;
-  let overall;
+  let entriesValues=0;
+  let exitsValues=0;
+  let overall=0;
 
   for (let i = 0; i < entries.length; i++) {
-    entriesValues = entriesValues + entries[i].valor;
+    entriesValues = entriesValues + Number(entries[i].valor);
   }
   for (let i = 0; i < exits.length; i++) {
-    exitsValues = exitsValues + exits[i].valor;
+    exitsValues = exitsValues + Number(exits[i].valor);
   }
 
   overall = entriesValues - exitsValues;
+  console.log(overall)
 
   return (
     <HomeContainer>
@@ -80,7 +81,7 @@ export default function HomePage() {
       <TransactionsContainer>
         <ul>{operations?.map((i) => <ListItemContainer><div>
           <span>{i.date}</span>
-          <strong>{i.descriptions}</strong></div>
+          <strong>{i.description}</strong></div>
           <Value color={i.identificacao === 1 ? "positivo" : "negativo"}>{i.valor}</Value></ListItemContainer>)}
         </ul>
 
