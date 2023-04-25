@@ -12,6 +12,7 @@ import HomeContext from "./Contexts/HomeContext"
 
 export default function App() {
 
+
   const [name, setName]= useState("")
   const [email, setEmail]= useState("")
   const [password, setPassword]= useState("")
