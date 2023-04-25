@@ -6,50 +6,64 @@ import { useEffect } from "react"
 import axios from "axios"
 import { useContext } from "react"
 import HomeContext from "../Contexts/HomeContext"
+import { useNavigate } from "react-router-dom"
 
 export default function HomePage() {
 
-  const {nome, setNome, operations, setOperations, exits, setExits, entries, setEntries}= useContext(HomeContext)
-  
-  const info= localStorage.getItem("usuario")
-  const informacoes=JSON.parse(info);
-  const  auth=informacoes.token;
+  const navigate = useNavigate()
 
-  useEffect(() =>{const requisition= axios.get("http:localhost:5000/home", {headers: {Authorization: `Bearer ${auth}`}});
-requisition.then((response) => {setNome(response.data.user.name);
-setOperations(response.data.operations);
-setExits(response.data.exits);
-setEntries(response.data.entries)}) },[])
+
+  const { nome, setNome, operations, setOperations, exits, setExits, entries, setEntries } = useContext(HomeContext)
+
+  const info = localStorage.getItem("usuario")
+  const informacoes = JSON.parse(info);
+  const auth = informacoes.token;
+
+  function Logout() {
+    const requisition = axios.delete("http://localhost:5000/", { headers: { Authorization: `Bearer ${auth}` } })
+    requisition.then(navigate("/"))
+  }
+
+  useEffect(() => {
+    const requisition = axios.get("http://localhost:5000/home", { headers: { Authorization: `Bearer ${auth}` } });
+    requisition.then((response) => {
+      setNome(response.data.user.name);
+      setOperations(response.data.operations);
+      setExits(response.data.exits);
+      setEntries(response.data.entries)
+    })
+  }, [])
+
+  let entriesValues;
+  let exitsValues;
+  let overall;
+
+  for (let i = 0; i < entries.length; i++) {
+    entriesValues = entriesValues + entries[i].valor;
+  }
+  for (let i = 0; i < exits.length; i++) {
+    exitsValues = exitsValues + exits[i].valor;
+  }
+
+  overall = entriesValues - exitsValues;
 
   return (
     <HomeContainer>
       <Header>
         <h1>Olá, {nome}</h1>
-        <BiExit />
+        <BiExit oncClick={Logout} />
       </Header>
 
       <TransactionsContainer>
-        <ul>
-          <ListItemContainer>
-            <div>
-              <span>30/11</span>
-              <strong>Almoço mãe</strong>
-            </div>
-            <Value color={"negativo"}>120,00</Value>
-          </ListItemContainer>
-
-          <ListItemContainer>
-            <div>
-              <span>15/11</span>
-              <strong>Salário</strong>
-            </div>
-            <Value color={"positivo"}>3000,00</Value>
-          </ListItemContainer>
+        <ul>{operations?.map((i) => <ListItemContainer><div>
+          <span>{i.date}</span>
+          <strong>{i.descriptions}</strong></div>
+          <Value color={i.identificacao === 1 ? "positivo" : "negativo"}>{i.valor}</Value></ListItemContainer>)}
         </ul>
 
         <article>
           <strong>Saldo</strong>
-          <Value color={"positivo"}>2880,00</Value>
+          <Value color={overall >= 0 ? "positivo" : "negativo"}>{overall}</Value>
         </article>
       </TransactionsContainer>
 
