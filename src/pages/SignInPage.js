@@ -27,7 +27,7 @@ export default function SignInPage() {
       <form onSubmit={Login}>
         <MyWalletLogo />
         <input placeholder="E-mail" type="email" value={email} onChange={e => setEmail(e.target.value) }/>
-        <input placeholder="Senha" type="password" autocomplete="new-password" value={password} onChange={e => setPassword(e.target.value)} />
+        <input placeholder="Senha" type="password" value={password} onChange={e => setPassword(e.target.value)} />
         <button type="submit">Entrar</button>
       </form>
 

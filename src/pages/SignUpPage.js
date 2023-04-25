@@ -7,7 +7,7 @@ import axios from "axios"
 
 
 export default function SignUpPage() {
-  const navigate= useNavigate
+  const navigate= useNavigate()
   const {email}= useContext(SignUpContext)
     const {setEmail}= useContext(SignUpContext)
     const {name}= useContext(SignUpContext)
@@ -21,7 +21,7 @@ export default function SignUpPage() {
       event.preventDefault();
       if( password === repeat){
         const body={name: name, email:email, password: password}
-        const requisition= axios.post("http:localhost:5000/cadastro",body);
+        const requisition= axios.post("http://localhost:5000/cadastro",body);
         requisition.then(navigate("/"))
         requisition.catch((error) => {console.log(error.message)})
       }
@@ -38,8 +38,8 @@ export default function SignUpPage() {
         <MyWalletLogo />
         <input placeholder="Nome" type="text" value={name} onChange={e => setName(e.target.value)}/>
         <input placeholder="E-mail" type="email" value={email} onChange={e => setEmail(e.target.value)} />
-        <input placeholder="Senha" type="password" autocomplete="new-password" value={password} onChange={e => setPassword(e.target.value)} />
-        <input placeholder="Confirme a senha" type="password" autocomplete="new-password" value={repeat}  onChange={e => setRepeat(e.target.value)}/>
+        <input placeholder="Senha" type="password"  value={password} onChange={e => setPassword(e.target.value)} />
+        <input placeholder="Confirme a senha" type="password"  value={repeat}  onChange={e => setRepeat(e.target.value)}/>
         <button type="submit">Cadastrar</button>
       </form>
 
