@@ -28,12 +28,34 @@ export default function HomePage() {
     const requisition = axios.get("http://localhost:5000/home", { headers: { Authorization: `Bearer ${auth}` } });
     requisition.then((response) => {
       console.log(response)
-      setNome(response.data[3].name);
-      setOperations(response.data[0]);
-      setExits(response.data[2]);
-      setEntries(response.data[1])
+      setNome(response.data[2].name);
+      setExits(response.data[1][0]);
+      setEntries(response.data[0][0])
     })
   },[])
+  
+  let operacoes=[];
+  for(let i=0; i< entries.length; i++){
+    operacoes.push(entries[i]);
+  }
+  for(let i=0; i< exits.length; i++){
+    operacoes.push(exits[i]);
+  }
+  for (let i = 0; i < operacoes.length; i++) {
+                let maior = i;
+                for (let j = i + 1; j < operacoes.length; j++) {
+                    if (operacoes[j].time > operacoes[maior].time) {
+                        maior = j;
+                    }
+                }
+                let aux = operacoes[i];
+                operacoes[i] = operacoes[maior];
+                operacoes[maior] = aux;
+            }
+
+  setOperations(operacoes);
+  
+
 
   let entriesValues;
   let exitsValues;
