@@ -30,11 +30,8 @@ export default function HomePage() {
       console.log(response)
       setNome(response.data[2].name);
       setExits(response.data[1][0]);
-      setEntries(response.data[0][0])
-    })
-  },[])
-  
-  let operacoes=[];
+      setEntries(response.data[0][0]);
+      let operacoes=[];
   for(let i=0; i< entries.length; i++){
     operacoes.push(entries[i]);
   }
@@ -54,6 +51,10 @@ export default function HomePage() {
             }
 
   setOperations(operacoes);
+    })
+  },[])
+  
+ 
   
 
 
