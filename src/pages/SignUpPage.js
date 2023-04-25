@@ -7,7 +7,7 @@ import axios from "axios"
 
 
 export default function SignUpPage() {
-  const navigate = useNavigate
+  const navigate = useNavigate();
   const { email } = useContext(SignUpContext)
   const { setEmail } = useContext(SignUpContext)
   const { name } = useContext(SignUpContext)

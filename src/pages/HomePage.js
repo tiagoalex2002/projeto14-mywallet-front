@@ -16,8 +16,8 @@ export default function HomePage() {
   const { nome, setNome, operations, setOperations, exits, setExits, entries, setEntries } = useContext(HomeContext)
 
   const info = localStorage.getItem("usuario")
-  const informacoes = JSON.parse(info);
-  const auth = informacoes.token;
+  const auth = JSON.parse(info);
+
 
   function Logout() {
     const requisition = axios.delete("http://localhost:5000/", { headers: { Authorization: `Bearer ${auth}` } })
@@ -25,14 +25,16 @@ export default function HomePage() {
   }
 
   useEffect(() => {
+    console.log("oi")
     const requisition = axios.get("http://localhost:5000/home", { headers: { Authorization: `Bearer ${auth}` } });
     requisition.then((response) => {
+      console.log(response)
       setNome(response.data.user.name);
       setOperations(response.data.operations);
       setExits(response.data.exits);
       setEntries(response.data.entries)
     })
-  }, [])
+  })
 
   let entriesValues;
   let exitsValues;
@@ -51,7 +53,7 @@ export default function HomePage() {
     <HomeContainer>
       <Header>
         <h1>Olá, {nome}</h1>
-        <BiExit oncClick={Logout} />
+        <BiExit onClick={Logout} />
       </Header>
 
       <TransactionsContainer>
@@ -63,7 +65,7 @@ export default function HomePage() {
 
         <article>
           <strong>Saldo</strong>
-          <Value color={overall >= 0 ? "positivo" : "negativo"}>{overall}</Value>
+          <Value color={overall >= 0 ? "positivo" : "negativo"}>{overall? overall :"R$0,00"}</Value>
         </article>
       </TransactionsContainer>
 
@@ -75,7 +77,7 @@ export default function HomePage() {
         </button></Link>
         <Link to="/nova-transacao/saida"><button>
           <AiOutlineMinusCircle />
-          <p>Nova <br />entrada</p>
+          <p>Nova <br />saída</p>
         </button></Link>
       </ButtonsContainer>
 

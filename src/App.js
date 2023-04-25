@@ -22,7 +22,7 @@ export default function App() {
   const [mail, setMail]=useState("")
   const LoginValue={email: mail, setEmail: setMail, password: senha , setPassword: setSenha}
 
-  const [valor, setValor]= useState(0)
+  const [valor, setValor]= useState("")
   const [description, setDescription]= useState("")
   const TransactionValue={valor: valor, setValor: setValor, description: description, setDescription: setDescription}
 

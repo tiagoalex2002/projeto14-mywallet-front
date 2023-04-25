@@ -19,6 +19,7 @@ export default function SignInPage() {
     const body = { email: email, password: password }
     const requisition = axios.post("http://localhost:5000/", body)
     requisition.then((response) => {
+      console.log(response)
       const user = JSON.stringify(response.data);
       localStorage.setItem("usuario", user);
       navigate("/home")

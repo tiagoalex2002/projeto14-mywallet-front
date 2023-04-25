@@ -11,16 +11,10 @@ export default function TransactionsPage() {
 
   const params = useParams();
   const info = localStorage.getItem("usuario")
-  const informacoes = JSON.parse(info);
-  const auth = informacoes.token;
+  const auth = JSON.parse(info);
+  
 
-  let transaction;
-  if (params == "entrada") {
-    transaction = "entrada"
-  }
-  else if (params == "saida") {
-    transaction = "saida"
-  }
+  
 
 
 
@@ -29,12 +23,12 @@ export default function TransactionsPage() {
   function Add(event) {
     event.preventDefault()
     const body = { valor: valor, description: description }
-    if (params == "entrada") {
+    if (params === "entrada") {
       const requisition = axios.post("/nova-transacao/entrada", body, { headers: { Authorization: `Bearer ${auth}` } })
       requisition.then(navigate("/home"))
       requisition.catch((err) => alert(err.message))
     }
-    else if (params == "saida") {
+    else if (params === "saida") {
       const requisition = axios.post("/nova-transacao/saida", body, { headers: { Authorization: `Bearer ${auth}` } })
       requisition.then(navigate("/home"))
       requisition.catch((err) => alert(err.message))
@@ -42,11 +36,11 @@ export default function TransactionsPage() {
   }
   return (
     <TransactionsContainer>
-      <h1>Nova {params}</h1>
+      <h1>Nova {params.tipo}</h1>
       <form onSubmit={Add}>
         <input placeholder="Valor" type="text" value={valor} onChange={e => setValor(e.target.value)} />
         <input placeholder="Descrição" type="text" value={description} onChange={e => setDescription(e.target.value)} />
-        <button type="submit">Salvar {params}</button>
+        <button type="submit">Salvar {params.tipo}</button>
       </form>
     </TransactionsContainer>
   )
