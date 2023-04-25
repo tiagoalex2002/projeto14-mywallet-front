@@ -23,13 +23,13 @@ export default function TransactionsPage() {
   function Add(event) {
     event.preventDefault()
     const body = { valor: valor, description: description }
-    if (params === "entrada") {
-      const requisition = axios.post("/nova-transacao/entrada", body, { headers: { Authorization: `Bearer ${auth}` } })
+    if (params.tipo === "entrada") {
+      const requisition = axios.post("http://localhost:5000/nova-transacao/entrada", body, { headers: { Authorization: `Bearer ${auth}` } })
       requisition.then(navigate("/home"))
       requisition.catch((err) => alert(err.message))
     }
-    else if (params === "saida") {
-      const requisition = axios.post("/nova-transacao/saida", body, { headers: { Authorization: `Bearer ${auth}` } })
+    else if (params.tipo === "saida") {
+      const requisition = axios.post("http://localhost:5000/nova-transacao/saida", body, { headers: { Authorization: `Bearer ${auth}` } })
       requisition.then(navigate("/home"))
       requisition.catch((err) => alert(err.message))
     }

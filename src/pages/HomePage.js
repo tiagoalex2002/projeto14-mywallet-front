@@ -25,16 +25,15 @@ export default function HomePage() {
   }
 
   useEffect(() => {
-    console.log("oi")
     const requisition = axios.get("http://localhost:5000/home", { headers: { Authorization: `Bearer ${auth}` } });
     requisition.then((response) => {
       console.log(response)
-      setNome(response.data.user.name);
-      setOperations(response.data.operations);
-      setExits(response.data.exits);
-      setEntries(response.data.entries)
+      setNome(response.data[3].name);
+      setOperations(response.data[0]);
+      setExits(response.data[2]);
+      setEntries(response.data[1])
     })
-  })
+  },[])
 
   let entriesValues;
   let exitsValues;
