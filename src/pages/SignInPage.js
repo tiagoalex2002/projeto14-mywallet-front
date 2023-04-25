@@ -23,6 +23,7 @@ export default function SignInPage() {
       localStorage.setItem("usuario", user);
       navigate("/home")
     })
+    requisition.catch((err) => alert(err.message))
   }
   return (
     <SingInContainer>

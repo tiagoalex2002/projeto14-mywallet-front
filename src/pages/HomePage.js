@@ -6,14 +6,23 @@ import { useEffect } from "react"
 import axios from "axios"
 import { useContext } from "react"
 import HomeContext from "../Contexts/HomeContext"
+import { useNavigate } from "react-router-dom"
 
 export default function HomePage() {
+
+  const navigate = useNavigate()
+
 
   const { nome, setNome, operations, setOperations, exits, setExits, entries, setEntries } = useContext(HomeContext)
 
   const info = localStorage.getItem("usuario")
   const informacoes = JSON.parse(info);
   const auth = informacoes.token;
+
+  function Logout() {
+    const requisition = axios.delete("http://localhost:5000/", { headers: { Authorization: `Bearer ${auth}` } })
+    requisition.then(navigate("/"))
+  }
 
   useEffect(() => {
     const requisition = axios.get("http://localhost:5000/home", { headers: { Authorization: `Bearer ${auth}` } });
@@ -42,7 +51,7 @@ export default function HomePage() {
     <HomeContainer>
       <Header>
         <h1>Olá, {nome}</h1>
-        <BiExit />
+        <BiExit oncClick={Logout} />
       </Header>
 
       <TransactionsContainer>

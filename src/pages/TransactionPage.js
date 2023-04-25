@@ -7,43 +7,45 @@ import TransactionContext from "../Contexts/TransactionContext"
 
 export default function TransactionsPage() {
 
-  const navigate= useNavigate()
+  const navigate = useNavigate()
 
-  const params= useParams();
-  const info= localStorage.getItem("usuario")
-  const informacoes=JSON.parse(info);
-  const  auth=informacoes.token;
+  const params = useParams();
+  const info = localStorage.getItem("usuario")
+  const informacoes = JSON.parse(info);
+  const auth = informacoes.token;
 
   let transaction;
-  if(params == "entrada"){
-    transaction= "entrada"
+  if (params == "entrada") {
+    transaction = "entrada"
   }
-  else if( params== "saida"){
-    transaction= "saida"
+  else if (params == "saida") {
+    transaction = "saida"
   }
 
 
 
-  const {valor, setValor, description, setDescription}= useContext(TransactionContext)
+  const { valor, setValor, description, setDescription } = useContext(TransactionContext)
 
-  function Add(event){
+  function Add(event) {
     event.preventDefault()
-    const body= {valor: valor, description: description}
-    if(params =="entrada"){
-      const requisition=axios.post("/nova-transacao/entrada", body, { headers: {Authorization: `Bearer ${auth}`}})
+    const body = { valor: valor, description: description }
+    if (params == "entrada") {
+      const requisition = axios.post("/nova-transacao/entrada", body, { headers: { Authorization: `Bearer ${auth}` } })
       requisition.then(navigate("/home"))
+      requisition.catch((err) => alert(err.message))
     }
-    else if(params == "saida" ){
-      const requisition=axios.post("/nova-transacao/saida", body, { headers: {Authorization: `Bearer ${auth}`}})
+    else if (params == "saida") {
+      const requisition = axios.post("/nova-transacao/saida", body, { headers: { Authorization: `Bearer ${auth}` } })
       requisition.then(navigate("/home"))
+      requisition.catch((err) => alert(err.message))
     }
   }
   return (
     <TransactionsContainer>
       <h1>Nova {params}</h1>
       <form onSubmit={Add}>
-        <input placeholder="Valor" type="text" value={valor} onChange={e => setValor(e.target.value)}/>
-        <input placeholder="Descrição" type="text" value={description} onChange={e => setDescription(e.target.value)}/>
+        <input placeholder="Valor" type="text" value={valor} onChange={e => setValor(e.target.value)} />
+        <input placeholder="Descrição" type="text" value={description} onChange={e => setDescription(e.target.value)} />
         <button type="submit">Salvar {params}</button>
       </form>
     </TransactionsContainer>

@@ -23,7 +23,7 @@ export default function SignUpPage() {
       const body = { name: name, email: email, password: password }
       const requisition = axios.post("http://localhost:5000/cadastro", body);
       requisition.then(navigate("/"))
-      requisition.catch((error) => { console.log(error.message) })
+      requisition.catch((error) => { alert(error.message) })
     }
     else {
       alert("Senhas não coincidem, por favor, insira a mesma senha no campo de confirmar a senha")
