@@ -21,7 +21,7 @@ export default function SignUpPage() {
     event.preventDefault();
     if (password === repeat) {
       const body = { name: name, email: email, password: password }
-      const requisition = axios.post("http://localhost:5000/cadastro", body);
+      const requisition = axios.post(`${process.env.REACT_APP_API_URL}/cadastro`, body);
       requisition.then(navigate("/"))
       requisition.catch((error) => { alert(error.message) })
     }

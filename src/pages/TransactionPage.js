@@ -24,12 +24,12 @@ export default function TransactionsPage() {
     event.preventDefault()
     const body = { valor: valor, description: description }
     if (params.tipo === "entrada") {
-      const requisition = axios.post("http://localhost:5000/nova-transacao/entrada", body, { headers: { Authorization: `Bearer ${auth}` } })
+      const requisition = axios.post(`${process.env.REACT_APP_API_URL}/nova-transacao/entrada`, body, { headers: { Authorization: `Bearer ${auth}` } })
       requisition.then(navigate("/home"))
       requisition.catch((err) => alert(err.message))
     }
     else if (params.tipo === "saida") {
-      const requisition = axios.post("http://localhost:5000/nova-transacao/saida", body, { headers: { Authorization: `Bearer ${auth}` } })
+      const requisition = axios.post(`${process.env.REACT_APP_API_URL}/nova-transacao/saida`, body, { headers: { Authorization: `Bearer ${auth}` } })
       requisition.then(navigate("/home"))
       requisition.catch((err) => alert(err.message))
     }

@@ -17,7 +17,7 @@ export default function SignInPage() {
   function Login(event) {
     event.preventDefault()
     const body = { email: email, password: password }
-    const requisition = axios.post("http://localhost:5000/", body)
+    const requisition = axios.post(`${process.env.REACT_APP_API_URL}/`, body)
     requisition.then((response) => {
       console.log(response)
       const user = JSON.stringify(response.data);

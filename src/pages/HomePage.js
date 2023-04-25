@@ -20,12 +20,12 @@ export default function HomePage() {
 
 
   function Logout() {
-    const requisition = axios.delete("http://localhost:5000/", { headers: { Authorization: `Bearer ${auth}` } })
+    const requisition = axios.delete(`${process.env.REACT_APP_API_URL}/`, { headers: { Authorization: `Bearer ${auth}` } })
     requisition.then(navigate("/"))
   }
 
   useEffect(() => {
-    const requisition = axios.get("http://localhost:5000/home", { headers: { Authorization: `Bearer ${auth}` } });
+    const requisition = axios.get(`${process.env.REACT_APP_API_URL}/home`, { headers: { Authorization: `Bearer ${auth}` } });
     requisition.then((response) => {
       console.log(response)
       setNome(response.data[2].name);
